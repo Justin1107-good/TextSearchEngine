@@ -1,0 +1,94 @@
+﻿@page
+@using TextSearchEngine.Models;
+@model TextSearchEngine.Pages.Account.IndexModel
+@{
+    ViewData["Title"] = "首页";
+}
+<h1>@ViewData["Title"] </h1>
+<nav class="navbar navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">文本管理</a>   <a class="navbar-brand">欢迎 @ViewData["UserName"] </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-end bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+            <div class="offcanvas-header text-white">
+                <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">系统中心</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/Essays/index">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Account/Login">登陆</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            设置
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="/Account/Personal">个人信息</a></li>
+                            <li><a class="dropdown-item" href="/Essays/About">关于版本</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="@Url.Action("SignedOut","Account")">退出</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+| <a href="/Account/Add">创建</a>
+@{
+    var url = "https://localhost:7127/";
+}
+<form method="get">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col" hidden>GUID</th>
+                <th scope="col">标题</th>
+                <th scope="col">作者</th>
+                <th scope="col">创建日期</th>
+                <th scope="col">标签</th>
+                <th scope="col">关键词</th>
+                <th scope="col">图片</th>
+                <th scope="col">内容</th>
+                <th scope="col">操作</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            @foreach (Essay item in Model.essays)
+            {
+                <tr>
+                    <th asp-for="Id" scope="row" hidden>@item.Id</th>
+                    <td>
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" disabled>@item.Title</textarea>
+                        </div>
+                      </td>
+                    <td>@item.Author</td>
+                    <td>
+                        <label class="oi-data-transfer-download">@item.PostDate</label>
+                        </td>
+                    <td>@item.Label</td>
+                    <td>@item.Keyword</td>
+                    <td><img src="@url@item.Picture" width="100" /></td>
+                    <td> 
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" disabled>@item.Content</textarea> 
+                        </div>
+                    </td>
+                    <td><a href="/Account/Update">编辑</a> | <a href="/Account/Delete">预览</a></td>
+                </tr>
+            }
+             
+        </tbody>
+    </table>
+</form>
+

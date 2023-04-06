@@ -1,0 +1,99 @@
+﻿@page
+@using TextSearchEngine.Models;
+@using TextSearchEngine.ViewModels;
+@using Westwind.AspNetCore.Markdown;
+@model TextSearchEngine.Pages.Test.IndexModel
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/js/jquery-3.6.1.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+<script type="module" src="~/lib/bootstrap/dist/js/bootstrap.esm.min.js"></script>
+<script type="module" src="~/lib/bootstrap/dist/js/bootstrap.esm.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+<script src="~/js/jquery.form.min.js"></script>
+<script src="~/js/base64.min.js"></script>
+ 
+@{
+    string json = "";
+    var url = "https://localhost:7127/";
+    // var urlview = "https://127.0.0.1:8080/file/test.txt"; //要预览文件的访问地址
+    var viUrl = "http://127.0.0.1:8012/onlinePreview?url=";
+    var start = "Base64.encode(";
+    var end = ")";
+    var str = "";
+}
+
+
+
+
+<form method="get">
+    <table>
+        <tr>
+            <td>名称</td>
+            <td></td>
+            <td>操作</td>
+        </tr>
+        <tbody id="tb">
+           @* @foreach (MarkDown item in Model.mds)
+            {
+                <tr>
+                    <td>@item.FileTitle</td>
+                    <td>
+                        <span hidden id="myid">@url@item.File</span>
+                    </td>
+                    <td>
+                        <button value="@url@item.File" id="previewByUrl" type="button" onclick="viewClick()" class="btn btn-success">预览</button>
+                    </td>
+                </tr>
+            }*@
+        </tbody>
+
+
+    </table>
+
+
+</form>
+<script>
+    function Show() {
+        $.ajax({
+            url: "https://localhost:7127/Home/MarkDownList/list",
+            type: "get",
+            dataType: "json",
+            success: function (data) {
+                $('#tb').empty();
+                //循环遍历
+                $.each(data.models, function (index, item) { 
+                    
+                    //定义变量
+                    var tr = '';
+                    //开始拼接
+                    tr += '<tr class="active">';
+                    tr += '<td>' + item.FileTitle + '</td>';
+                    tr += '<td>' + '<span hidden id = "myid" >' + 'https://localhost:7127/' + item.File+'</span>' + '</td>';
+                    tr += '<td>' + '<button  id = "previewByUrl" type = "button" onclick = "viewClick()" class="btn btn - success"> ' + '预览' + ' < /button>' + '</td > ';
+                     tr += '</tr>';
+                    //尾部添加
+                    $('#tb').append(tr);
+                })
+            }
+        });
+    }
+    function viewClick() {
+        var urlView = document.getElementById("myid").textContent;
+        //alert(urlView);
+        var b64Encoded = Base64.encode(urlView);
+        //alert(b64Encoded);
+        var res = encodeURIComponent(b64Encoded);
+        //alert(res);
+        window.open('http://127.0.0.1:8012/onlinePreview?url=' + res);
+        //$("#myid").empty();
+        return;
+    }
+</script>
+
+
+

@@ -1,0 +1,37 @@
+﻿@page
+@model TextSearchEngine.Pages.Account.RegistModel
+@{
+    //Layout = null;
+}
+
+<form method="post">
+    <div class="mb-3">
+        <!-- As a link -->
+        <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/Account/login">登陆</a>
+            </div>
+        </nav>
+    </div>
+    <div class="mb-3">
+        <label asp-for="user.UserName" class="form-label">名字</label>
+        <input asp-for="user.UserName" type="text" class="form-control">
+        <div id="textHelp" class="form-text">我们不会向任何人分享你的姓名。</div>
+    </div>
+    <div class="mb-3">
+        <label asp-for="user.Email"  class="form-label">邮箱账号</label>
+        <input asp-for="user.Email" type="email" class="form-control" aria-describedby="emailHelp">
+        <div id="emailHelp" class="form-text">我们不会向任何人分享你的邮箱。</div>
+    </div>
+    <div class="mb-3">
+        <label asp-for="user.PassWord"  class="form-label">密码</label>
+        <input asp-for="user.PassWord" type="password" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label asp-for="user.AffrimPassWord" class="form-label">确认密码</label>
+        <input asp-for="user.AffrimPassWord" type="password" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary">注册</button>
+</form>
+
+ 

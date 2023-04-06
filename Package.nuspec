@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>Package</id>
+    <version>1.0.0</version>
+    <authors>Justin</authors>
+    <owners>Justin</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <!-- <icon>icon.png</icon> -->
+    <projectUrl>http://project_url_here_or_delete_this_line/</projectUrl>
+    <description>文本检索引擎</description>
+    <releaseNotes>文本检索引擎采用DotNet Core 6.0跨平台框架.</releaseNotes>
+    <copyright>copyright 2023</copyright>
+    <tags>Masuit.LuceneEFCore 懒得勤快 Watchdog.NET Israel Ulelu, Kelechi Onyekwere</tags>
+    <dependencies>
+      <group targetFramework=".NETStandard2.1">
+        <dependency id="WatchDog.NET" version="1.4.6" />
+        <dependency id="Masuit.LuceneEFCore" version="1.2.3" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

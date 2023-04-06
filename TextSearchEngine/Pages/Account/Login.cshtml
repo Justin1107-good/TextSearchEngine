@@ -1,0 +1,47 @@
+﻿@page
+@model TextSearchEngine.Pages.Account.LoginModel
+@{
+    ViewData["Title"] = "登陆";
+
+}
+@{
+    var url = "https://localhost:7127";
+}
+<h1>@ViewData["Title"]</h1>
+<div class="mb-3">
+    <!-- As a link -->
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/Essays/index">返回</a>
+        </div>
+    </nav>
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/Account/Regist">注册</a>
+        </div>
+    </nav>
+</div>
+
+<form method="post" asp-route-returnurl="@Model.OnGetAsync("/Account/login")" class="form-horizontal">
+     
+    <hr> 
+    <div class="mb-3">
+        <label asp-for="UserDto.Email" class="form-label">邮箱账号</label>
+        <input asp-for="UserDto.Email" type="email" class="form-control" aria-describedby="emailHelp">
+        <span asp-validation-for="UserDto.Email"></span>
+        <div id="emailHelp" class="form-text">我们不会向任何人分享你的邮箱。</div>
+    </div>
+    <div class="mb-3">
+        <label asp-for="UserDto.PassWord" class="form-label">密码</label>
+        <input asp-for="UserDto.PassWord" type="password" class="form-control">
+        <span asp-validation-for="UserDto.PassWord"></span>
+    </div>
+    <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">记住密码</label>
+    </div>
+    <button type="submit" class="btn btn-primary">登陆</button>
+</form>
+
+
+

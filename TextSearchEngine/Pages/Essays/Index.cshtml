@@ -1,0 +1,68 @@
+﻿@page
+
+@using TextSearchEngine.Models;
+@using TextSearchEngine.ViewModels;
+@model TextSearchEngine.Pages.Essays.IndexModel
+@{
+
+    string s;
+}
+
+<script src="~/js/site.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<nav class="navbar navbar-dark bg-dark fixed-top" style="background-color: azure;" data-bs-theme="light">
+    <div class="container-fluid">
+        <a class="nav-link" href="#" _msttexthash="5448781" _msthash="358">
+            <img src="../favicon.ico" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+            文本检索引擎
+        </a>
+        <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" name="s" placeholder="搜索" aria-label="搜索" _mstplaceholder="74607" _msthash="359" _mstaria-label="74607">
+            <button class="btn btn-outline-primary" type="submit" _msttexthash="5663684" _msthash="360">搜索</button>
+        </form>
+        <a class="nav-link" href="#" _msttexthash="5448781" _msthash="358">登陆</a>
+
+    </div>
+</nav> 
+
+@if (Model.facses == 0)
+{
+    <div  class="alert alert-success" role="alert" style="vertical-align:middle;margin-top:revert">
+        请输入检索关键字
+    </div>
+}
+else if (Model.facses == -1)
+{
+    <form class="d-flex" role="search" style="text-align:center">
+        <input class="form-control me-2" name="s" type="search" placeholder="请输入检索关键字" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">发送</button>
+    </form>
+    <div class="alert alert-success" role="alert">
+        没有检索需要的内容哦
+    </div>
+}
+else
+{
+    var url = "http://localhost:5203/";
+    <div>
+
+        @foreach (var item in Model.essays.Results)
+        {
+            <h1>@item.Entity.Title</h1>
+            <div>
+                <p>
+                    @item.Entity.Id
+                </p>
+                <p>
+                    @item.Entity.Content
+                </p>
+                <p>
+                    <img src="@url@item.Entity.Picture" width="250">
+                </p>
+            </div>
+        }
+
+    </div>
+}
+

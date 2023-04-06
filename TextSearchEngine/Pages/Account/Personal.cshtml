@@ -1,0 +1,23 @@
+﻿@page
+@model TextSearchEngine.Pages.Account.PersonalModel
+@{
+    if (User.Identity.IsAuthenticated)
+    {
+        ViewData["UserName"] = User.Claims.FirstOrDefault(c => c.Type == "UserName")?.Value;
+        ViewData["Name"] = User.Identity.Name;
+    }
+}
+<div>
+    <input type="range" class="form-range" id="customRange1">
+    <div>
+        <div class="row-cols-3">
+            <label class="form-label">用户名</label>
+            <span>@ViewData["UserName"] </span>
+        </div>
+        <div class="row-cols-3">
+            <label class="form-label">邮箱</label>
+            <span>@ViewData["Name"]</span>
+        </div>
+    </div>
+    <input type="range" class="form-range" id="disabledRange" disabled>
+</div>

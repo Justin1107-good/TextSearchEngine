@@ -1,0 +1,14 @@
+﻿@page
+@model TextSearchEngine.Pages.MarkDs.AddModel
+@{
+}
+
+<form method="post" enctype="multipart/form-data">
+    <hr> 
+    <div class="form-group">
+        <label asp-for="formFile">选择图片文件</label>
+        <input asp-for="formFile" type="file" class="form-control">
+        <span asp-validation-for="formFile">请上传文件</span>
+    </div>
+    <button type="submit" class="btn btn-primary">提交</button>
+</form>
