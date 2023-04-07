@@ -36,9 +36,13 @@ builder.Services.AddScoped<IOpenAiServices, OpenAiServices>();
 builder.Services.AddMvcCore()
    .AddRazorPages(options =>
 {
+    //account
     options.Conventions.AuthorizePage("/Account/index");
     options.Conventions.AuthorizePage("/Account/Add");
     options.Conventions.AuthorizePage("/Account/Update");
+    //markdown
+    options.Conventions.AuthorizePage("/MarkDs/Add");
+    //essays
     options.Conventions.AllowAnonymousToPage("/Essays/Index");
     options.Conventions.AllowAnonymousToFolder("/Essays/About");
 })

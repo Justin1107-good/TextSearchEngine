@@ -1,0 +1,79 @@
+配置脚本
+#
+sysname FW
+#
+interface WAN 0/0/1
+ undo shutdown
+ ip address 36.152.203.202 255.255.255.252
+ service-manage https permit
+ service-manage ping permit
+#
+interface GigabitEthernet 0/0/6
+ undo shutdown
+ ip address 192.168.10.1 255.255.255.0
+ service-manage https permit
+ service-manage ping permit
+#  
+ip route-static 0.0.0.0 0.0.0.0 36.152.203.201
+#
+aaa
+ domain default
+  service-type ssl-vpn
+#
+firewall zone trust
+ set priority 85
+ add interface GigabitEthernet 0/0/2
+#
+firewall zone untrust
+ set priority 5
+ add interface GigabitEthernet 0/0/1
+#
+ v-gateway sslvpn interface GigabitEthernet 0/0/1 private
+ v-gateway sslvpn authentication-domain default
+ v-gateway sslvpn alias sslvpn
+#
+#****BEGIN***sslvpn**1****#
+v-gateway sslvpn
+ basic
+  ssl version tlsv10 tlsv11 tlsv12
+  ssl timeout 5
+  ssl lifecycle 1440
+  ssl ciphersuit custom aes256-sha aes128-sha
+ service
+  network-extension enable
+  network-extension keep-alive enable
+  network-extension keep-alive interval 120
+  network-extension netpool 172.16.1.1 172.16.1.100 255.255.255.0
+  netpool 172.16.1.1 default
+  network-extension mode manual
+  network-extension manual-route 10.1.2.0 255.255.255.0
+ security
+  policy-default-action permit vt-src-ip
+  certification cert-anonymous cert-field user-filter subject cn group-filter subject cn
+  certification cert-anonymous filter-policy permit-all
+  certification cert-challenge cert-field user-filter subject cn
+  certification user-cert-filter key-usage any
+  undo public-user enable
+ hostchecker
+ cachecleaner
+ role
+  role default condition all
+  role default network-extension enable
+#
+security-policy
+ rule name sslvpn_ul
+  source-zone untrust
+  destination-zone local
+  service https
+  action permit
+ rule name sslvpn_ut
+  source-zone untrust
+  destination-zone trust
+  source-address 172.16.1.0 mask 255.255.255.0
+  destination-address 10.1.2.0 mask 255.255.255.0
+  action permit
+# 以下创建用户/组的配置保存于数据库，不在配置文件体现
+user-manage group /default/research
+user-manage user user0001
+ parent-group /default/research
+ password *********

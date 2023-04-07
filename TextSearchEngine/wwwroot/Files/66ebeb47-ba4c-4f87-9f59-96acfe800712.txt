@@ -1,0 +1,15 @@
+
+首次登陆去下面连接忘记密码来设置密码
+https://mail.skycoresaas.com/
+
+
+客户端使用FOXmail（添加账号选择腾讯企业邮）
+下载位置：https://www.foxmail.com/
+客户端教程：https://doc.weixin.qq.com/doc/w3_ASAAQgbcAJo2oqju3gZRvSqyaWvVd?scode=AOoANwePADMBgde1x2
+手机端（系统自带的也可以）：https://doc.weixin.qq.com/doc/w3_ASAAQgbcAJolzYdX8S2QUCcYNyaIA?scode=AOoANwePADMfQlV2if
+POP3/SMTP协议
+接收邮件服务器：pop.exmail.qq.com ，使用SSL，端口号995
+发送邮件服务器：smtp.exmail.qq.com ，使用SSL，端口号465 
+IMAP协议
+接收邮件服务器：imap.exmail.qq.com ，使用SSL，端口号993
+发送邮件服务器：smtp.exmail.qq.com ，使用SSL，端口号465 
