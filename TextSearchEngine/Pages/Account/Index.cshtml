@@ -4,6 +4,30 @@
 @{
     ViewData["Title"] = "首页";
 }
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/js/jquery-3.6.1.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+<script type="module" src="~/lib/bootstrap/dist/js/bootstrap.esm.min.js"></script>
+<script type="module" src="~/lib/bootstrap/dist/js/bootstrap.esm.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+<script src="~/js/jquery.form.min.js"></script>
+<script src="~/js/base64.min.js"></script>
+<script src="~/node_modules/popper.js/popper.js"></script>
+
+<script type="text/javascript">
+        function viewClick(data) {
+
+            var type = data.type; 
+            var b64Encoded = Base64.encode(type); 
+            var res = encodeURIComponent(b64Encoded); 
+            window.open('http://127.0.0.1:8012/onlinePreview?url=' + res); 
+            return;
+        } 
+    </script>
 <h1>@ViewData["Title"] </h1>
 <nav class="navbar navbar-dark bg-dark fixed-top">
     <div class="container-fluid">
@@ -47,6 +71,7 @@
 @{
     var url = "https://localhost:7127/";
 }
+
 <form method="get">
     <table class="table">
         <thead>
@@ -57,7 +82,7 @@
                 <th scope="col">创建日期</th>
                 <th scope="col">标签</th>
                 <th scope="col">关键词</th>
-                <th scope="col">图片</th>
+                <th scope="col">附件</th>
                 <th scope="col">内容</th>
                 <th scope="col">操作</th>
             </tr>
@@ -78,13 +103,17 @@
                         </td>
                     <td>@item.Label</td>
                     <td>@item.Keyword</td>
-                    <td><img src="@url@item.Picture" width="100" /></td>
+                    <td>
+                        <a class="btn btn-success" href="#" onclick="viewClick(this)" type="@url@item.Picture">
+                            预览
+                        </a> 
                     <td> 
                         <div class="form-floating mb-3">
                             <textarea class="form-control" disabled>@item.Content</textarea> 
                         </div>
                     </td>
-                    <td><a href="/Account/Update">编辑</a> | <a href="/Account/Delete">预览</a></td>
+                    <td>
+                        <a asp-page="Update" asp-route-id="@item.Id" class="btn btn-success">点此修改内容</a> 
                 </tr>
             }
              

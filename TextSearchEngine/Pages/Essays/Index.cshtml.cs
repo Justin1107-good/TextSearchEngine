@@ -26,6 +26,10 @@ namespace TextSearchEngine.Pages.Essays
         /// 
         /// </summary>
         public IScoredSearchResultCollection<Essay>? essays = null;
+
+        [BindProperty(SupportsGet = true)]
+        public int PageIndex { get; set; }
+        public int PageCount { get; set; }
         /// <summary>
         /// 
         /// </summary>
@@ -45,21 +49,26 @@ namespace TextSearchEngine.Pages.Essays
         /// <param name="s"></param>
         public void OnGet(string s)
         {
+            //if (PageIndex == 0)
+            //    PageIndex = 1;
+            //int pageSize = 5;
+
             int page = 1; int size = 5;
             if (!string.IsNullOrEmpty(s))
             {
                 essays = _searchEngine.ScoredSearch<Essay>(new SearchOptions(s, page, size, typeof(Essay)));
                 facses = essays.Results.Count == 0 ? facses = -1 : essays.Results.Count;
-               
+                //PageCount = facses;
+                //ViewData["data"] = facses;
                 WatchLogger.LogWarning(JsonConvert.SerializeObject(essays));
                 //WatchLogger.LogError(res.Content, eventId: reference);
             }
             else
-            { 
+            {
                 facses = 0;
                 WatchLogger.LogError("查询条件为空", eventId: "101");
             }
-             RedirectToPage("./Essays/index");
+            RedirectToPage("./Essays/index");
         }
     }
 }

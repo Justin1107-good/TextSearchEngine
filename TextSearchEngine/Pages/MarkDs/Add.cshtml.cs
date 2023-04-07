@@ -124,7 +124,7 @@ namespace TextSearchEngine.Pages.MarkDs
                     fs.Dispose();
                 }
             } 
-            return RedirectToPage("/Test/Index");
+            return RedirectToPage("./MarkDs/Index");
         }
     }
 }

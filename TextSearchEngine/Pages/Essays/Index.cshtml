@@ -4,11 +4,37 @@
 @using TextSearchEngine.ViewModels;
 @model TextSearchEngine.Pages.Essays.IndexModel
 @{
-
+    var pageIndex = Model.PageIndex;
+    var pageCount = Model.PageCount;
+    var pageStart = pageIndex - 2 > 0 ? pageIndex - 2 : 1;
+    var pageEnd = pageIndex + 2 >= pageCount ? pageCount : pageStart + 4;
     string s;
 }
 
 <script src="~/js/site.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/js/jquery-3.6.1.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+<script type="module" src="~/lib/bootstrap/dist/js/bootstrap.esm.min.js"></script>
+<script type="module" src="~/lib/bootstrap/dist/js/bootstrap.esm.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+<script src="~/js/jquery.form.min.js"></script>
+<script src="~/js/base64.min.js"></script>
+<script src="~/node_modules/popper.js/popper.js"></script>
+
+<script type="text/javascript">
+    function viewClick(data) {
+
+        var type = data.type;
+        var b64Encoded = Base64.encode(type);
+        var res = encodeURIComponent(b64Encoded);
+        window.open('http://127.0.0.1:8012/onlinePreview?url=' + res);
+        return;
+    }
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
 <nav class="navbar navbar-dark bg-dark fixed-top" style="background-color: azure;" data-bs-theme="light">
@@ -24,45 +50,79 @@
         <a class="nav-link" href="#" _msttexthash="5448781" _msthash="358">登陆</a>
 
     </div>
-</nav> 
+</nav>
 
-@if (Model.facses == 0)
-{
-    <div  class="alert alert-success" role="alert" style="vertical-align:middle;margin-top:revert">
-        请输入检索关键字
-    </div>
-}
-else if (Model.facses == -1)
-{
-    <form class="d-flex" role="search" style="text-align:center">
-        <input class="form-control me-2" name="s" type="search" placeholder="请输入检索关键字" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">发送</button>
-    </form>
-    <div class="alert alert-success" role="alert">
-        没有检索需要的内容哦
-    </div>
-}
-else
-{
-    var url = "http://localhost:5203/";
-    <div>
+<div class="div1">
+    @if (Model.facses == 0)
+    {
+        <form class="d-flex" role="search" style="text-align:center">
+            <input class="form-control me-2" name="s" type="search" placeholder="请输入检索关键字" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">发送</button>
+        </form> 
+    }
+    else if (Model.facses == -1)
+    {
+        <form class="d-flex" role="search" style="text-align:center">
+            <input class="form-control me-2" name="s" type="search" placeholder="请输入检索关键字" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">发送</button>
+        </form>
+        <div class="alert alert-success" role="alert">
+            没有检索需要的内容哦
+        </div>
+    }
+    else
+    {
+        var url = "http://localhost:5203/";
+        <div> 
+            @foreach (var item in Model.essays.Results)
+            {
+                <h1>@item.Entity.Title</h1>
+                <div>
+                    <p>
+                        <small class="d-inline-flex mb-3 px-2 py-1 fw-semibold text-success-emphasis bg-success-subtle border border-success-subtle rounded-2" _msttexthash="12585989" _msthash="317"><a href="https://justin07.cn/about/">@item.Entity.Author</a> </small>
+                        &nbsp;&nbsp;&nbsp;
+                        <small class="d-inline-flex mb-3 px-2 py-1 fw-semibold text-success-emphasis bg-success-subtle border border-success-subtle rounded-2" _msttexthash="12585989" _msthash="317">@item.Entity.Label </small>
+                    </p>
+                    <p>
+                        @item.Entity.Content
+                    </p>
+                    <p>
+                        <a class="btn btn-outline-success" href="#" onclick="viewClick(this)" type="@url@item.Entity.Picture">
+                            查看附件
+                        </a>
+                    </p>
+                </div>
+                <hr class="accordion-collapse"/>
+            }
 
-        @foreach (var item in Model.essays.Results)
-        {
-            <h1>@item.Entity.Title</h1>
-            <div>
-                <p>
-                    @item.Entity.Id
-                </p>
-                <p>
-                    @item.Entity.Content
-                </p>
-                <p>
-                    <img src="@url@item.Entity.Picture" width="250">
-                </p>
-            </div>
-        }
+        </div>
+    }
+</div>
+<!--分页未使用-->
+ <nav aria-label="Page navigation example" hidden>
+    <ul class="pagination  justify-content-center">
+            <li class="page-item@(pageIndex == 1 ? " disabled" : "")">
+                <a class="page-link" asp-page="Index" asp-route-PageIndex="@(pageIndex==1 ? 1 : pageIndex -1)">
+                    &laquo;
+                </a>
+            </li>
+            @for (int i = pageStart; i <= pageEnd; i++)
+            {
+                <li class="page-item@(pageIndex== i? " active" :"")">
+                    <a class="page-link" asp-page="Index" asp-route-PageINdex="@i">@i</a>
+                </li>
+            }
+            <li class="page-item@(pageIndex == pageCount ? " disabled" : "")">
+                <a class="page-link" asp-page="Index" asp-route-PageIndex="@(pageIndex==pageCount ? pageCount : pageIndex +1)">
+                    &laquo;
+                </a>
+            </li>
 
-    </div>
-}
+        </ul>
 
+    </nav>
+<style>
+    .div1 {
+        padding-top: 150px;
+    }
+</style>
